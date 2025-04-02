@@ -14,6 +14,7 @@ export class AppComponent {
   nextId: number = 1;
 
   constructor(){ }
+
   ngOnInit(){
     const storeHabits = localStorage.getItem('habits');
     const storedNextId = localStorage.getItem('nextId');
@@ -28,7 +29,7 @@ export class AppComponent {
     const newHabit: Habits = {
       id: this.nextId,
       title,
-      days: 0
+      days: 0,
     }
 
     this.habits.push(newHabit);
@@ -51,11 +52,35 @@ export class AppComponent {
 
   deleteHabit(id: number){
     this.habits = this.habits.filter(h => h.id !== id)
+    this.saveOnLocalStorage();
+
+    if(this.habits.length === 0){
+      this.nextId = 1
+    }
     this.saveOnLocalStorage()
   }
 
   saveOnLocalStorage(){
     localStorage.setItem('habits', JSON.stringify(this.habits));
     localStorage.setItem('nextId', this.nextId.toString());
+  }
+
+  selectedHabit: Habits | null = null;
+
+  openModal(habit: Habits) {
+    this.selectedHabit = { ...habit };
+  }
+
+  saveHabit(updatedHabit: Habits) {
+    const index = this.habits.findIndex(h => h.id === updatedHabit.id);
+    if (index !== -1) {
+      this.habits[index] = updatedHabit;
+      this.saveOnLocalStorage();
+    }
+    this.selectedHabit = null;
+  }
+
+  closeModal() {
+    this.selectedHabit = null;
   }
 }

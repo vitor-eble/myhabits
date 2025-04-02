@@ -14,11 +14,11 @@
   <ul class="space-y-2">
     <li *ngFor="let habit of habits"
     class="flex justify-between items-center border rounded-xl border-gray-200 bg-gray-50 p-3">
-      <div class="flex items-center">
+      <div class="flex items-center" (click)="openModal(habit)">
         <h4 class="w-4">
           {{  habit.id }}
         </h4>
-        <h3 class="text-base font-medium px-2 break-words max-w-[150px] overflow-hidden border-l-2 border-solid border-gray-200 ml-1">
+        <h3 class="text-lg font-medium px-2 break-words max-w-[150px] overflow-hidden border-l-2 border-solid border-gray-200 ml-1">
           {{ habit.title }}
         </h3>
 
@@ -44,5 +44,12 @@
       </div>
 
     </li>
+    <div class="p-2">
+      <app-habit-modal *ngIf="selectedHabit" class="p-2 "
+        [habit]="selectedHabit"
+        (onSave)="saveHabit($event)"
+        (onClose)="closeModal()">
+      </app-habit-modal>
+    </div>
   </ul>
 </div>

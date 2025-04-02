@@ -1,0 +1,31 @@
+<div *ngIf="habit" class="fixed inset-0 flex items-center justify-center bg-[#dcdcdc]/70 p-4 border border-gray-200">
+  <div class="bg-white p-6 rounded-lg shadow-lg w-full relative max-w-sm">
+    <h2 class="text-lg font-semibold">Editar Hábito</h2>
+
+    <div class="space-y-2">
+      <input [(ngModel)]="habit.title" class="w-full p-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 outline-none" placeholder="Título do hábito" />
+      <textarea [(ngModel)]="habit.description" class="w-full p-2 border-2 border-gray-200 rounded-lg focus:border-blue-500 outline-none"
+        placeholder="Descrição do hábito">
+      </textarea>
+    </div>
+
+    <div class="mt-4">
+      <h3 class="text-md font-semibold">Evolução do Hábito</h3>
+      <ngx-charts-bar-vertical class="flex justify-center items-center"
+        [view]="[250, 200]"
+        [scheme]="colorScheme"
+        [results]="chartData"
+        [gradient]="false"
+        [xAxis]="true"
+        [yAxis]="true"
+        [legend]="false"
+        [showDataLabel]="true">
+      </ngx-charts-bar-vertical>
+    </div>
+
+    <div class="mt-4 flex justify-end space-x-2">
+      <button (click)="save()" class="px-4 py-2 bg-blue-500 hover:bg-blue-400 active:bg-blue-600 transition-all text-white rounded-lg">Salvar</button>
+      <button (click)="close()" class="px-4 py-2 bg-gray-300 rounded-lg hover:bg-gray-200 active:bg-gray-400 transition-all">Cancelar</button>
+    </div>
+  </div>
+</div>
