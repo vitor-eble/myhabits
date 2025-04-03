@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, INJECTOR } from '@angular/core';
 
 import { Habits } from '../../habit.model';
 import { Color, ScaleType } from '@swimlane/ngx-charts';
@@ -11,6 +11,7 @@ import { Color, ScaleType } from '@swimlane/ngx-charts';
 })
 export class HabitModalComponent {
 
+  @Input() darkMode!: boolean;
   @Input() habit!: Habits;
   @Output() onSave = new EventEmitter<Habits>();
   @Output() onClose = new EventEmitter<void>();
@@ -21,7 +22,14 @@ export class HabitModalComponent {
     name: 'custom',
     selectable: true,
     group: ScaleType.Ordinal,
-    domain: ['#1E88E5']
+    domain: ['#1E88E5'], // Cor normal
+  };
+
+  darkColorScheme: Color = {
+    name: 'custom',
+    selectable: true,
+    group: ScaleType.Ordinal,
+    domain: ['#90CAF9'], // Cor para modo escuro
   };
 
   ngOnInit() {

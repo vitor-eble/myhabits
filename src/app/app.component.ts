@@ -12,15 +12,22 @@ export class AppComponent {
 
   habits: Habits[] = [];
   nextId: number = 1;
+  selectedHabit: Habits | null = null;
+  isDarkMode: boolean = false
+
 
   constructor(){ }
 
   ngOnInit(){
     const storeHabits = localStorage.getItem('habits');
     const storedNextId = localStorage.getItem('nextId');
+    const storeTheme = localStorage.getItem('theme')
 
     this.habits = storeHabits ? JSON.parse(storeHabits) : [];
     this.nextId = storedNextId ? parseInt(storedNextId, 10) : 1;
+    this.isDarkMode = storeTheme === 'dark'
+
+    this.updateTheme()
   }
 
   addHabit(title: string, inputElement: HTMLElement){
@@ -52,8 +59,6 @@ export class AppComponent {
 
   deleteHabit(id: number){
     this.habits = this.habits.filter(h => h.id !== id)
-    this.saveOnLocalStorage();
-
     if(this.habits.length === 0){
       this.nextId = 1
     }
@@ -64,8 +69,6 @@ export class AppComponent {
     localStorage.setItem('habits', JSON.stringify(this.habits));
     localStorage.setItem('nextId', this.nextId.toString());
   }
-
-  selectedHabit: Habits | null = null;
 
   openModal(habit: Habits) {
     this.selectedHabit = { ...habit };
@@ -82,5 +85,19 @@ export class AppComponent {
 
   closeModal() {
     this.selectedHabit = null;
+  }
+
+  toggleTheme(){
+    this.isDarkMode = !this.isDarkMode;
+    localStorage.setItem('theme', this.isDarkMode ? 'dark': 'light');
+    this.updateTheme()
+  }
+
+  updateTheme(){
+    if(this.isDarkMode){
+      document.body.classList.add('dark')
+    } else{
+      document.body.classList.remove('dark')
+    }
   }
 }
